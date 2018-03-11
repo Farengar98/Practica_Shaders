@@ -15,14 +15,14 @@ extern void GUI();
 
 extern void GLmousecb(MouseEvent ev);
 extern void GLResize(int width, int height);
-extern void GLinit(int width, int height);
-extern void GLcleanup();
-extern void GLrender(double currentTime);
+//extern void GLinit(int width, int height);
+//extern void GLcleanup();
+//extern void GLrender(double currentTime);
 
 
 extern void myRenderCode(double currentTime);
-//extern void myCleanupCode(void);
-//extern void myInitCode(void);
+extern void myCleanupCode(void);
+extern void myInitCode(int width, int height);
 
 //////
 namespace {
@@ -87,7 +87,9 @@ int main(int argc, char** argv) {
 	int display_w, display_h;
 	SDL_GL_GetDrawableSize(mainwindow, &display_w, &display_h);
 	// Init scene
-	GLinit(display_w, display_h);
+	//GLinit(display_w, display_h);
+
+	myInitCode(display_w, display_h);
 	//PhysicsInit();
 
 	//myInitCode();
@@ -132,20 +134,18 @@ int main(int argc, char** argv) {
 
 
 		double currentTime = (double)SDL_GetTicks() / 1000.0;
-		GLrender(currentTime);
+		myRenderCode(currentTime);
 		
 		//double currentTime = (double) SDL_GetTicks() / 1000.0;
 		//myRenderCode(currentTime);
 		
-
-
 		SDL_GL_SwapWindow(mainwindow);
 		waitforFrameEnd();
 	}
 
 	//myCleanupCode();
 
-	GLcleanup();
+	myCleanupCode();
 
 	ImGui_ImplSdlGL3_Shutdown();
 	SDL_GL_DeleteContext(maincontext);
